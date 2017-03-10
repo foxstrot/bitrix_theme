@@ -1,0 +1,126 @@
+
+div.menu-sitemap-tree
+{
+	font-size:100%;
+	padding-top: 10px;
+}
+
+/*Первый уровень*/
+div.menu-sitemap-tree ul
+{
+	list-style-type: none;
+	margin: 0px 10px 0px 0px;
+	padding: 0 1em 0 0;
+}
+div.menu-sitemap-tree li
+{
+	margin: 0 0 -0.85em 0;
+	padding:0;
+}
+div.menu-sitemap-tree  ul  li  .item-text
+{
+	padding-left: 0px;
+	left: 17px;
+}
+div.menu-sitemap-tree  ul  li.active > .item-text
+{
+	padding-left: 13px;
+	left: 0px;
+	border-left: 4px solid #3F73AE;
+}
+div.menu-sitemap-tree ul li div.folder
+{
+	left:0px;
+}
+
+/*Второй уровень*/
+div.menu-sitemap-tree ul ul
+{
+	width: auto;
+	margin:-0.75em 0 0 0;
+	padding: 0 0 0 0;
+}
+div.menu-sitemap-tree li li
+{
+	margin: 0 0 -0.85em 0;
+	padding:0;
+}
+div.menu-sitemap-tree  ul  li  li  .item-text
+{
+	padding-left: 36px;
+	left:0px;
+}
+div.menu-sitemap-tree  ul  li  li.active > .item-text
+{
+	padding-left: 32px;
+	left: 0px;
+}
+div.menu-sitemap-tree ul li li div.folder
+{
+	left:17px;
+}
+
+
+/*Третий уровень*/
+div.menu-sitemap-tree ul ul ul
+{
+	width: auto;
+	margin:-0.75em 0 0 0;
+	padding: 0 0 0 0;
+}
+div.menu-sitemap-tree li li li
+{
+	margin: 0 0 -0.85em 0;
+	padding:0;
+}
+div.menu-sitemap-tree li li li .item-text
+{
+	padding-left: 52px;
+	left:0px;
+}
+div.menu-sitemap-tree  ul  li li  li.active > .item-text
+{
+	padding-left: 48px;
+	left: 0px;
+}
+
+div.menu-sitemap-tree li.close ul
+{
+	display: none;
+}
+
+div.menu-sitemap-tree div.item-text
+{
+	position:relative;
+	top:-19px;
+	/*left:19px;*/
+}
+
+
+
+div.menu-sitemap-tree li li.active >.item-text
+{
+	left: 0px;
+	padding-left: 32px;
+}
+
+
+div.menu-sitemap-tree li li li.active > .item-text
+{
+	left: 0px;
+	padding-left: 51px;
+}
+
+
+
+/*Icons*/
+div.folder, div.page
+{
+	background-repeat:no-repeat;
+	width:17px;
+	height:17px;
+	vertical-align:top;
+}
+div.folder{cursor:pointer; cursor: hand;background-image:url(images/folder-open.png);}
+div.menu-sitemap-tree li.close div.folder{background-image:url(images/folder-close.png);}
+div.page{background-image:url(images/page.gif);}

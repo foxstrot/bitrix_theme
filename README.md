@@ -1,4 +1,4 @@
-#bitrix_theme_mfc
+#bitrix_theme
 
 
 ###Шаблон дизайна сайта
