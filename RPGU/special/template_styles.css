@@ -1,0 +1,19 @@
+.header {}
+.layout { 
+	overflow: hidden; 
+	margin-top: 20px;
+	margin-left: 35px;
+	margin-right: 35px;
+}
+.leftpanel { 
+	float: left; 
+	width: 442px;
+}
+.centerpanel { 
+	margin: 0px 0px 0px 442px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.rightpanel { float: right;
+	width: 0px;
+}
