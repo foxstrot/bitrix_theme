@@ -5,14 +5,21 @@
 	<?$APPLICATION->ShowHead()?>
 	<link rel="shortcut icon" href="<?=SITE_TEMPLATE_PATH?>/images/favicon.ico">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="yandex-verification" content="ca420b00d44b52a6" />
 	<title><?$APPLICATION->ShowTitle()?></title>
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>	
 	<link rel="stylesheet" href="/bitrix/templates/rpgu-main/Parts/Style/style.css">
+	<link rel="stylesheet" href="/bitrix/templates/rpgu-main/Parts/Style/bvi.min.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="<?=SITE_TEMPLATE_PATH?>/../rpgu-main/Parts/Script/responsivevoice.min.js"> </script>
+	<script src="<?=SITE_TEMPLATE_PATH?>/../rpgu-main/Parts/Script/bvi.min.js"></script>
+	<script src="<?=SITE_TEMPLATE_PATH?>/../rpgu-main/Parts/Script/bvi-panel.min.js"></script>
+	
 </head>
 <body>
 <!-- bundle -->
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/templates/rpgu-main/Portal/commonHtml.html");?>
-
 <?$APPLICATION->ShowPanel();?> 
 	<div id="wrapper">
 		<h1 class="hidden">Госуслуги</h1>
@@ -42,8 +49,12 @@
 							</ul>
 						</div>
 					</div>
-					
-					
+
+					<span class="vertion-control pull-left">
+						<a href="#" class="bvi-panel-open" onclick="return false;">Версия для слабовидящих</a>
+					</span>
+
+
 					<!-- civi-picker -->
 					<div class="civi-picker open-close custom-select pull-right">
 						<a href="#" class="opener">
@@ -147,7 +158,6 @@
 		</div>
 		
 		<a href="#" class="form-overlay form-opener"></a>
-		
 		<div class="slider-area">
 			<!-- slideshow -->
 			<div class="slideshow">
