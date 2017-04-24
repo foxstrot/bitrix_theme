@@ -1,5 +1,5 @@
 require([], function () {
-	if (window.nvxCommonPath == null) { 
+	if (window.nvxCommonPath == null) {
 		window.nvxCommonPath = {
 			departmentView: '/department/index.php?departmentId=',
 			mfcCommonView: '/mfc/',
@@ -19,7 +19,7 @@ require([], function () {
 			authRedirectPath: 'http://bitx.egspace.ru/authRequest.php',
 			authPortalPath: 'http://testrpgu.egspace.ru',
 			fileProxyPath: 'http://bitx.egspace.ru/proxy4file.php',
-			igtnServiceList: [],
+			igtnServiceList: []
 		};
 	}
 	if (window.sessionStorage) {
@@ -179,26 +179,30 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/Scripts/dynamicFormBindingHan
 						data: function(term, page) {
 							if (viewModel.DictionarySource().startsWith('Value')) {
 								return {
-									Term: term.term,
-									NeedLoad: quantEntities,
-									LoadedEntities: ((term.page | 1) - 1),
-									DictionaryId: dataDict,
-									ParentId: dataParent(),
-									"collectFormData": JSON.stringify(mainForm.collectFormDataKoVm()),
-									"typename": $("#dynamic_form_right_typename_to_controller").val(),
-									"projectNameWithSuffix": $("#dynamic_form_right_projectNameWithSuffix").val(),
-									"currentPath": viewModel.Path,
-									"neededPath": viewModel.DictionarySource(),
-									DisplayFieldScript: displayFieldScript
+									term: term.term,
+									needLoad: quantEntities,
+									loadedEntities: ((term.page | 1) - 1),
+									fileId: currentFileId,
+									componentId: currentComponentId,
+									dictionaryId: dataDict,
+									parentId: dataParent(),
+									collectFormData: JSON.stringify(mainForm.collectFormDataKoVm()),
+									typename: $("#dynamic_form_right_typename_to_controller").val(),
+									projectNameWithSuffix: $("#dynamic_form_right_projectNameWithSuffix").val(),
+									currentPath: viewModel.Path,
+									neededPath: viewModel.DictionarySource(),
+									displayFieldScript: displayFieldScript
 								};
 							} else {
 								return {
-									Term: term.term,
-									NeedLoad: quantEntities,
-									LoadedEntities: ((term.page | 1) - 1),
-									DictionaryId: dataDict,
-									ParentId: dataParent(),
-									DisplayFieldScript: displayFieldScript
+									term: term.term,
+									needLoad: quantEntities,
+									loadedEntities: ((term.page | 1) - 1),
+									fileId: currentFileId,
+									componentId: currentComponentId,
+									dictionaryId: dataDict,
+									parentId: dataParent(),
+									displayFieldScript: displayFieldScript
 								};
 							}
 						},
@@ -260,7 +264,7 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/Scripts/dynamicFormBindingHan
 										DisplayFieldScript: displayFieldScript
 									},
 									type: 'POST',
-									headers: {proxy: true}
+									headers: { proxy: true }
 								})
 									.done(function(response) {
 										if (response.hasError === false) {
@@ -362,26 +366,30 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/Scripts/dynamicFormBindingHan
 						data: function(term) {
 							if (viewModel.DictionarySource().startsWith('Value'))
 								return {
-									Term: term.term,
-									NeedLoad: quantEntities,
-									LoadedEntities: ((term.page || 1) - 1),
-									DictionaryId: dataDict,
-									ParentId: dataParent(),
-									"collectFormData": JSON.stringify(mainForm.collectFormDataKoVm()),
-									"typename": $("#dynamic_form_right_typename_to_controller").val(),
-									"projectNameWithSuffix": $("#dynamic_form_right_projectNameWithSuffix").val(),
-									"currentPath": viewModel.Path,
-									"neededPath": viewModel.DictionarySource(),
-									DisplayFieldScript: displayFieldScript
+									term: term.term,
+									needLoad: quantEntities,
+									loadedEntities: ((term.page || 1) - 1),
+									dictionaryId: dataDict,
+									parentId: dataParent(),
+									fileId: currentFileId,
+									componentId: currentComponentId,
+									collectFormData: JSON.stringify(mainForm.collectFormDataKoVm()),
+									typename: $("#dynamic_form_right_typename_to_controller").val(),
+									projectNameWithSuffix: $("#dynamic_form_right_projectNameWithSuffix").val(),
+									currentPath: viewModel.Path,
+									neededPath: viewModel.DictionarySource(),
+									displayFieldScript: displayFieldScript
 								};
 							else
 								return {
-									Term: term.term,
-									NeedLoad: quantEntities,
-									LoadedEntities: ((term.page || 1) - 1),
-									DictionaryId: dataDict,
-									ParentId: dataParent(),
-									DisplayFieldScript: displayFieldScript
+									term: term.term,
+									needLoad: quantEntities,
+									loadedEntities: ((term.page || 1) - 1),
+									fileId: currentFileId,
+									componentId: currentComponentId,
+									dictionaryId: dataDict,
+									parentId: dataParent(),
+									displayFieldScript: displayFieldScript
 								};
 						},
 						processResults: function(data) {
@@ -437,10 +445,10 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/Scripts/dynamicFormBindingHan
 								data: {
 									fileId: currentFileId,
 									componentId: currentComponentId,
-									DictionaryId: dataDict,
-									ParentId: dataParent,
-									Current: value.toString(),
-									DisplayFieldScript: displayFieldScript
+									dictionaryId: dataDict,
+									parentId: dataParent,
+									current: value.toString(),
+									displayFieldScript: displayFieldScript
 								},
 								type: 'POST',
 								headers:
@@ -1469,7 +1477,6 @@ function($) {
 					deferred.reject();
 				} else {
 					deferred.resolve(response.result);
-					
 				}
 			})
 			.fail(function(jqXHR) {
@@ -1861,16 +1868,16 @@ define('Nvx/DepartmentTreeViewModel', [
 			var self = this;
 			self.getDepartments();
 		};
-//there
+
 		/* Р”РѕР±Р°РІР»СЏРµС‚ РІ РјРѕРґРµР»СЊ СЃСЃС‹Р»РєРё РЅР° СЃС‚СЂР°РЅРёС†С‹ РІРµРґРѕРјСЃС‚РІ */
 		DepartmentTreeViewModel.prototype.setLink = function(department) {
 			var self = this;
 			if (department != null) {
 				if (Array.isArray(department.subDepartments)) {
 					department.subDepartments.forEach(function (item, i) {
-						item.link = (window.nvxCommonPath != null ? window.nvxCommonPath.departmentView : '/department/index.php?departmentId=') + item.id; //todo
+						item.link = (window.nvxCommonPath != null ? window.nvxCommonPath.departmentView : '/department/index.php?departmentId=') + item.id;
 						if (department.id != null)
-							item.link += "&parentId=" + department.topParentId;
+							item.link += "&parentId=" + department.id;
 						self.setLink(item);
 					});
 				}
@@ -1939,22 +1946,19 @@ define('Nvx/DepartmentViewModel',
 	'Nvx.ReDoc.WebInterfaceModule/Content/Scripts/inherit',
 	'Nvx.ReDoc.Rpgu.Core/Script/Tab',
 	'Nvx.ReDoc.StateStructureServiceModule/StateStructure/Script/mfcUtils'],
-	//РЅР°С‡Р°Р»Рѕ РІРµРґРѕРјСЃС‚РІР°
 function(ko, $, MfcViewModel, MfcServicesViewModel, inherit, Tab, mfcUtils) {
 	var DepartmentViewModel = function(departmentId) {
 		var self = this;
 
 		//Р’С‹Р·С‹РІР°РµРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЂРѕРґРёС‚РµР»СЏ.
 		DepartmentViewModel.superclass.constructor.apply(self, arguments);
-		
+
 		/*РљРѕРЅС‚Р°РєС‚РЅС‹Рµ Р»РёС†Р° РІРµРґРѕРјСЃС‚РІР°*/
 		self.contacts = ko.observableArray(null);
 		/*РџРѕРґРІРµРґРѕРјСЃС‚РІР°*/
 		self.subDepartments = ko.observableArray(null);
 		/*РџРєРѕР°Р·С‹РІР°С‚СЊ РёР»Рё РЅРµС‚ РІРєР»Р°РґРєСѓ РїРѕРґРІРµРґРѕРјСЃС‚РІ*/
 		self.visibleTabSubDepartments = ko.observable(false);
-
-
 
 		//РїРѕРґРїРёСЃС‹РІР°РµРјСЃСЏ РЅР° РёР·РјРµРЅРµРЅРёСЏ СЃРїРёСЃРєР° РїРѕРґРІРµРґРѕРјСЃС‚РІ Рё РјРµРЅСЏРµРј Р·РЅР°С‡РµРЅРёСЏ С„Р»Р°РіР° РІРёРґРёРјРѕСЃС‚Рё
 		self.subDepartments.subscribe(function(newValue) {
@@ -2138,7 +2142,6 @@ function(ko, $, MfcViewModel, MfcServicesViewModel, inherit, Tab, mfcUtils) {
 		self.webSite(mfcUtils.prototype.getWebLink(department.webSite));
 		self.email(department.email);
 		self.locationCoord(department.locationCoord);
-		self.parent = responseResult.topParentId;//id СЂРѕРґРёС‚РµР»СЏ
 
 		//РїРѕРґРІРµРґРѕРјСЃС‚РІР°
 		responseResult.subdepartments.forEach(function (item, i) {
@@ -5285,6 +5288,54 @@ define('Nvx/StartCreateFileViewModel', [
 		var StartCreateFileViewModel = function() {
 			var self = this;
 
+			self.tabs = {
+				customer: {
+					onclick: function() {
+						self.allTabsClear();
+						self.tabs.customer.active(true);
+						if (document.getElementById('nvxCustomerInfo') != null)
+							document.getElementById('nvxCustomerInfo').style.display = 'block';
+					},
+					active: ko.observable(true)
+				},
+				request: {
+					onclick: function() {
+						self.allTabsClear();
+						self.tabs.request.active(true);
+						if (document.getElementById('nvxRequestList') != null)
+							document.getElementById('nvxRequestList').style.display = 'block';
+					},
+					active: ko.observable(true)
+				},
+				payments: {
+					onclick: function() {
+						self.allTabsClear();
+						self.tabs.payments.active(true);
+						if (document.getElementById('nvxLkPayments') != null)
+							document.getElementById('nvxLkPayments').style.display = 'block';
+					},
+					active: ko.observable(true)
+				},
+				reception: {
+					onclick: function() {
+						self.allTabsClear();
+						self.tabs.reception.active(true);
+						if (document.getElementById('nvxLkReception')!= null)
+							document.getElementById('nvxLkReception').style.display = 'block';
+					},
+					active: ko.observable(true)
+				},
+				complaints: {
+					onclick: function() {
+						self.allTabsClear();
+						self.tabs.complaints.active(true);
+						if (document.getElementById('nvxLkComplaint') != null)
+							document.getElementById('nvxLkComplaint').style.display = 'block';
+					},
+					active: ko.observable(true)
+				}
+			};
+
 			// Р·Р°РїСЂРѕСЃ РЅР° СЃРµСЂРІРµСЂ СЃРѕР·РґР°РЅРёРµ РґРµР»Р°
 			self.createFileRequest = function(data) {
 				var searchTrobberId = modal.CreateTrobberDiv2();
@@ -5317,6 +5368,29 @@ define('Nvx/StartCreateFileViewModel', [
 						modal.CloseTrobberDiv2(searchTrobberId);
 					});
 			};
+
+			self.allTabsClear = function() {
+				self.tabs.customer.active(false);
+				if (document.getElementById('nvxCustomerInfo') != null)
+					document.getElementById('nvxCustomerInfo').style.display = 'none';
+				self.tabs.request.active(false);
+				if (document.getElementById('nvxRequestList') != null)
+					document.getElementById('nvxRequestList').style.display = 'none';
+				self.tabs.payments.active(false);
+				if (document.getElementById('nvxLkPayments') != null)
+					document.getElementById('nvxLkPayments').style.display = 'none';
+				self.tabs.reception.active(false);
+				if (document.getElementById('nvxLkReception') != null)
+					document.getElementById('nvxLkReception').style.display = 'none';
+				self.tabs.complaints.active(false);
+				if (document.getElementById('nvxLkComplaint') != null)
+					document.getElementById('nvxLkComplaint').style.display = 'none';
+			};
+			if (document.getElementById('nvxCustomerInfo').parentElement.id != null) {
+				console.info('btx');
+			} else {
+				self.tabs.customer.onclick();
+			}
 		};
 
 		StartCreateFileViewModel.prototype.start = function() {
@@ -8999,7 +9073,7 @@ function (ko, $, modal, Tab, MfcServicesViewModel, portalPageController, MfcList
 		var self = this;
 		return self.getDepartment();
 	};
-//С‚СѓС‚
+
 	MfcViewModel.prototype.getDepartmentUrl = function() {
 		return '/Nvx.ReDoc.StateStructureServiceModule/StateStructureController/GetMfc/';
 	};
@@ -9020,7 +9094,6 @@ function (ko, $, modal, Tab, MfcServicesViewModel, portalPageController, MfcList
 					modal.errorModalWindow(response.errorMessage);
 				} else {
 					self.applyResponse(response.result);
-					//console.log(response.result.topParentId);
 				}
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
@@ -9106,7 +9179,7 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/main',
 		var DynamicFormRender = function () {
 			var self = this;
 
-			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ viewModel пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+			//Возвращает viewModel с объекта формы.
 			self.buildViewModel = function (project, dynamicFormHub, callbackFunction, isClientScripts, fileId, componentId) {
 				require(['Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2'],
 					function (render) {
@@ -9115,7 +9188,7 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/main',
 					});
 			};
 
-			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ viewModel пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+			//Возвращает viewModel с объекта формы.
 			self.buildViewModelReadonly = function (project, dynamicFormHub, callbackFunction, isClientScripts) {
 				require(['Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2'],
 					function (render) {
@@ -9124,7 +9197,7 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/main',
 					});
 			};
 			
-			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+			//Функционал перекликивания табов на динамической форме
 			self.collapsePage = function (element, pageid) {
 				if ($(element).find('[data-control-type="page"]').size() === 0)
 					return;
@@ -9167,8 +9240,8 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/api',
 			this.markup = markup;
 		};
 
-		//tag - пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
-		//koViewModelConstructor - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ view-model knockout.
+		//tag - тип элемента.
+		//koViewModelConstructor - функция-конструктор для создания view-model knockout.
 		var KoViewModel = function (tag, koViewModelConstructor) {
 			this.tag = tag;
 			this.constructor = koViewModelConstructor;
@@ -9322,13 +9395,13 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2',
 	],
 	function ($, templateStore, templateStoreReadonly, constructorStore) {
 		var buildViewModel = function (formObjectInstance, dynamicFormHub, fileId, componentId) {
-			//пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+			//Шаблон разметки формы.
 			var formTemplate = templateStore['FormDescriptor'];
 			if (formTemplate === undefined) { formTemplate = templateStore['Placeholder']; }
-			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+			//Конструктор вью-модели формы.
 			var FormViewModel = constructorStore['FormDescriptor'];
 			if (FormViewModel === undefined) { FormViewModel = constructorStore['Placeholder']; }
-			//пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ viewModel пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+			//Для начала создадим viewModel формы, затем по ней построим разметку.
 			var viewModelPath = '_';
 			var params = {
 				'viewModelPath': viewModelPath,
@@ -9337,31 +9410,31 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2',
 				'elementDescriptor': formObjectInstance
 			};
 			var formViewModel = new FormViewModel(params);
-			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+			//Добавляем разметку главной форме.
 			formObjectInstance.viewModelPath = viewModelPath;
 			formViewModel.markup = $(formTemplate).render(formObjectInstance);
-			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
+			//Запускаем вью-модель в рекурсию - пусть расширит себя детьми.
 			recursion(formViewModel, formObjectInstance, dynamicFormHub, templateStore, "FormElements", false, fileId, componentId);
 
 			return formViewModel;
 		};
 
-		//viewModel пїЅ vm пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-		//formObjectInstance пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		//viewModel — vm рассматриваемого объекта
+		//formObjectInstance — описатель данного объекта
 		var recursion = function (viewModel, formObjectInstance, dynamicFormHub, templatesForUsing, blockToAdd, itsApage, fileId, componentId) {
 			if (formObjectInstance.DescriptorKey === "Placeholder")
 				return;
-			//пїЅпїЅпїЅпїЅпїЅ (Form)
+			//Формы (Form)
 			var formObjectChildren = formObjectInstance.FormElements;
-			//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅ.
+			//Если есть этот элемент, значит объект - форма.
 			if (formObjectChildren != null) {
 				//#region forms
 				var length = formObjectChildren.length;
 				for (var index = 0; index < length; index++) {
 					var childFormObject = formObjectChildren[index];
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ viewModel.
+					//Создаем путь до корневого объекта viewModel.
 					var viewModelPath = '{0}[{1}]'.format(blockToAdd, index);
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+					//Создаем вью-моделину ребенка.
 					var ChildViewModel = constructorStore[childFormObject.DescriptorKey];
 					if (ChildViewModel == null) {
 						ChildViewModel = constructorStore['Placeholder'];
@@ -9376,10 +9449,10 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2',
 					var childViewModel = new ChildViewModel(params);
 
 					childViewModel.Parent = viewModel;
-					// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ)
+					// посписываемся на изменения модели для хаба (если надо)
 //					childViewModel.onValueChanged.subscribe(dynamicFormHub.updateValue);
 
-					//пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+					//Для внешних справочников проставляем идентификатор
 					if (childFormObject.DescriptorKey === "DictionaryRegistryControlDescriptor") {
 						childViewModel.DictionaryId(childFormObject.DictionaryId);
 						childViewModel.DictionarySource(childFormObject.DictionarySource);
@@ -9390,42 +9463,42 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2',
 						childViewModel.componentId = componentId;
 					}
 
-					//Её пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+					//Её разметка.
 					childFormObject.viewModelPath = viewModelPath;
 					var markupTemplate = templatesForUsing[childFormObject.DescriptorKey];
 					if (markupTemplate === undefined) {
 						markupTemplate = templatesForUsing['Placeholder'];
 					}
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+					//Рендерим
 					childViewModel.markup = $(markupTemplate).render(childFormObject);
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+					//Добавляем в коллекцию элементов формы-родителя.
 					if (itsApage === true) {
 						viewModel.PageElements.push(childViewModel);
 						viewModel.FormElements.push(childViewModel);
 					} else {
 						viewModel.FormElements.push(childViewModel);
 					}
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ).
+					//Запускаем еще одну итерацию рекурсии (вдруг и у дитя есть дети).
 					recursion(childViewModel, childFormObject, dynamicFormHub, templatesForUsing, "FormElements", false, fileId, componentId);
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+					//Встраиваем разметку ребенка в разметку родителя.
 					viewModel.markup = appendFormElementMarkup(viewModel.markup, childViewModel.markup, '[data-control-fragment-id="{0}-{1}"]'.format(blockToAdd, viewModel.Path));
 				}
 				//#endregion
 			} else if (formObjectInstance.CollectionElementDescriptor != null) {
 				viewModel.ButtonCaption = formObjectInstance.ButtonCaption;
 
-				//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+				//Здесь нужно проанализировать коллекции.
 				var formElementsC = formObjectInstance.CollectionElementDescriptor.FormElements;
 				if (formElementsC !== null && $.isArray(formElementsC) && formElementsC.length > 0) {
 					//#region collections
-					//label пїЅпїЅпїЅпїЅпїЅпїЅ
+					//label кнопки
 					
 
-					//пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-					//пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+					//В коллекции есть дети, их и обработаем
+					//Сам клонируемый элемент — это форма
 					var FormViewModel = constructorStore['FormDescriptor'];
-					//itemToAdd пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
-					//пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+					//itemToAdd — образец клонируемого элемента, соберём его
+					//это хрень для того чтобы реально ещё несуществующие пути не попали в словарь путей
 					dynamicFormHub = $.extend({}, dynamicFormHub);
 					dynamicFormHub.ViewModelPathToViewModel = {};
 					dynamicFormHub.EntityPathToViewModel = {};
@@ -9439,13 +9512,13 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2',
 						'Parent': viewModel
 					});
 
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+					//Перебираем все элементы на форме
 					for (var index = 0; index < formElementsC.length; index++) {
-						//пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+						//в цикле всех перебрать, добавить как детей к форме, а форму добавить в шаблон элемента коллекции
 						var childFormObject1 = formElementsC[index];
-						//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ viewModel.
+						//Создаем путь до корневого объекта viewModel.
 						var viewModelPath1 = '{0}[{1}]'.format(blockToAdd, index);
-						//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+						//Создаем вью-моделину ребенка.
 						var ChildViewModel1 = constructorStore[childFormObject1.DescriptorKey];
 						if (ChildViewModel1 == null) {
 							ChildViewModel1 = constructorStore['Placeholder'];
@@ -9459,28 +9532,28 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2',
 						};
 						var childViewModel1 = new ChildViewModel1(params2);
 
-						// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ)
+						// посписываемся на изменения модели для хаба (если надо)
 						//childViewModel1.onValueChanged.subscribe(dynamicFormHub.updateValue);
 
-						//пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+						//Для внешних справочников проставляем идентификатор
 						if (childFormObject1.DescriptorKey === "DictionaryRegistryControlDescriptor") {
 							childViewModel1.DictionaryId(childFormObject1.DictionaryId);
 							childViewModel1.DictionarySource(childFormObject1.DictionarySource);
 							childViewModel1.DisplayFieldScript(childFormObject1.DisplayFieldScript);
 						}
 
-						//Её пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+						//Её разметка.
 						childFormObject1.viewModelPath = viewModelPath1;
 						var markupTemplate1 = templatesForUsing[childFormObject1.DescriptorKey];
 						if (markupTemplate1 === undefined) {
 							markupTemplate1 = templatesForUsing['Placeholder'];
 						}
 						childViewModel1.markup = $(markupTemplate1).render(childFormObject1);
-						//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ).
+						//Запускаем еще одну итерацию рекурсии (вдруг и у дитя есть дети).
 						recursion(childViewModel1, childFormObject1, dynamicFormHub, templatesForUsing, blockToAdd, false, fileId, componentId);
-						//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+						//Отрисовываем разметку элемента для добавления
 						viewModel.itemToAdd.markup += childViewModel1.markup;
-						//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+						//добавляем в клонируемый элемент ребёнка
 						viewModel.itemToAdd.FormElements.push(childViewModel1);
 					}
 					if (viewModel.itemToAdd != null)
@@ -9489,7 +9562,7 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2',
 				}
 			} else if (formObjectInstance.Pages != null) {
 				//#region pages
-				//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+				//Вьюмодель контейнера для вкладок
 				var containerViewModel = new constructorStore[formObjectInstance.DescriptorKey]({
 					'viewModelPath': formObjectInstance.Path,
 					'businessEntityPath': formObjectInstance.Path,
@@ -9504,7 +9577,7 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2',
 				for (var pageIndex = 0; pageIndex < pagesSize; pageIndex++) {
 					var pageObject = formObjectInstance.Pages[pageIndex];
 					var pageViewModelPath = 'Pages[{0}]'.format(pageIndex);
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+					//Создаем вью-модель ребенка из шаблону
 					var childInstViewModel = new constructorStore[pageObject.DescriptorKey]({
 						'viewModelPath': pageViewModelPath,
 						'businessEntityPath': pageObject.Path,
@@ -9512,15 +9585,15 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2',
 						'elementDescriptor': pageObject,
 						'Parent': viewModel
 					});
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+					//Конкретный индекс вьюмодели порядковый
 					pageObject.viewModelPath = pageViewModelPath;
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+					//Базовая разметка вкладки
 					childInstViewModel.markup = $(templatesForUsing[pageObject.DescriptorKey]).render(pageObject);
 					recursion(childInstViewModel, pageObject, dynamicFormHub, templatesForUsing, "PageElements", true, fileId, componentId);
 					viewModel.Pages.push(childInstViewModel);
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+					//Встраиваем разметку ребенка в разметку родителя.
 					viewModel.markup = appendFormElementMarkup(viewModel.markup, childInstViewModel.markup, '[data-control-fragment-id="Pages-{0}"]'.format(viewModel.Path));
-					//пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+					//Кнопки управления вкладками
 					var percent = 100 / pagesSize;
 					var button = "<td title=\"" + pageObject.Caption + "\" onclick='Nvx.ReDoc.Workflow.DynamicForm.mainForm.collapsePage(" + pageIndex + ");' style='width: " + percent + "%; position: relative;'>"
 						+ "<div class='nvx-dfjsr-tab-white'>"
@@ -9534,10 +9607,10 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2',
 			}
 		};
 
-		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
-		// formMarkup - пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
-		// elementMarkup - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ.
-		// jqSelector - jQuery-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+		//Встраивает фрагмент разметки в общую разметку.
+		// formMarkup - общая разметка.
+		// elementMarkup - разметка, которая добавляется в общую.
+		// jqSelector - jQuery-селектор для выбора элемента в качестве потомка которого добавляем разметку.
 		var appendFormElementMarkup = function (formMarkup, elementMarkup, jqSelector) {
 			var dom = document.implementation.createHTMLDocument('title');
 			var jq2 = $(dom.body);
@@ -9551,15 +9624,15 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2',
 		//#region READONLY FORM METHODS
 
 		var buildReadonlyViewModel = function (formObjectInstance, dynamicFormHub) {
-			//пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+			//Шаблон разметки формы.
 			var formTemplate = templateStoreReadonly['FormDescriptor'];
 			if (formTemplate === undefined) {
 				formTemplate = templateStoreReadonly['Placeholder'];
 			}
-			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+			//Конструктор вью-модели формы.
 			var FormViewModel = constructorStore['FormDescriptor'];
 			if (FormViewModel === undefined) { FormViewModel = constructorStore['Placeholder']; }
-			//пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ viewModel пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+			//Для начала создадим viewModel формы, затем по ней построим разметку.
 			var viewModelPath = '_';
 			var params = {
 				'viewModelPath': viewModelPath,
@@ -9570,63 +9643,63 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2',
 				"ViewModelPathToViewModel": {}
 			};
 			var formViewModel = new FormViewModel(params);
-			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+			//Добавляем разметку главной форме.
 			formObjectInstance.viewModelPath = viewModelPath;
 			formViewModel.markup = $(formTemplate).render(formObjectInstance);
-			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
+			//Запускаем вью-модель в рекурсию - пусть расширит себя детьми.
 			recursion(formViewModel, formObjectInstance, dynamicFormHub, templateStoreReadonly, "FormElements");
 			return formViewModel;
 		};
 
 		var appendRecursionReadonly = function ($mainFormMarkup, parentPath, controlObject) {
-			//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+			//Находим наш контрол в общей разметке.
 			var $control = $mainFormMarkup.getWrappedByDiv().find('[data-control-path="{0}"]'.format(controlObject.Path));
-			//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ.
+			//Если разметки нашего контрола не нашлось, то добавляем её.
 			if ($control.exists() === false) {
 
-				//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+				//Разметка нашего контрола.
 				var controlMarkup = renderControl(controlObject);
-				//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+				//Находим в разметке нашего родителя.
 				var $mainParent = $mainFormMarkup.find('[data-control-path="{0}"]'.format(controlObject.ParentPath));
-				//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+				//Добавляем разметку к разметке для детей нашего родителя.
 				$mainParent.find('[data-control-fragment-id="FormElements-{0}"]'.format(controlObject.ParentPath)).append(controlMarkup);
 			}
 			var formElements = controlObject.FormElements;
-			//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+			//Если есть детки.
 			if (formElements !== null && $.isArray(formElements) && formElements.length > 0) {
-				//пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ DOM.
+				//Наш элемент в контексте DOM.
 				$control = $mainFormMarkup.find('[data-control-path="{0}"]'.format(controlObject.Path));
-				//пїЅпїЅcпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+				//Меcто в разметке для детей нашего элемента.
 				var $controlFormElementsContent = $control.find('[data-control-fragment-id="FormElements-{0}"]'.format(controlObject.Path));
-				//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+				//Перебираем деток нашего элемента.
 				formElements.forEach(function (item) {
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+					//Получаем разметку ребенка.
 					var childMarkup = renderControl(item);
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+					//Встраиваем в разметку родителя.
 					$controlFormElementsContent.append(childMarkup);
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ).
+					//Прогоняем контрол, вдруг есть внуки (детки этого ребенка).
 					appendRecursionReadonly($mainFormMarkup, controlObject.Path, item);
 				});
 			}
 			/*We have a collection here!*/
 			var collectionElements = controlObject.CollectionElementDescriptor;
 			if (collectionElements != null) {
-				//пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+				//Это клонируемые поля
 				var formElementsC = controlObject.CollectionElementDescriptor.FormElements;
-				//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+				//Если есть детки.
 				if (formElementsC !== null && $.isArray(formElementsC) && formElementsC.length > 0) {
-					//пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ DOM.
+					//Наш элемент в контексте DOM.
 					$control = $mainFormMarkup.find('[data-control-path="{0}"]'.format(controlObject.Path));
-					//пїЅпїЅcпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+					//Меcто в разметке для детей нашего элемента.
 					var $controlFormElementsContentC = $control.find('[data-control-fragment-id="FormElements-{0}"]'.format(controlObject.Path)).find('[data-control-fragment-id="CollectionItemDescriptor"]');
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
-					//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+					//Прикрепляем разметку кнопки удаления клонируемого блока
+					//Перебираем деток нашего элемента.
 					formElementsC.forEach(function (item) {
-						//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+						//Получаем разметку ребенка.
 						var childMarkup = renderControl(item);
-						//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+						//Встраиваем в разметку родителя.
 						$controlFormElementsContentC.append(childMarkup);
-						//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ).
+						//Прогоняем контрол, вдруг есть внуки (детки этого ребенка).
 						appendRecursionReadonly($mainFormMarkup, controlObject.Path, item);
 					});
 				}
@@ -9640,7 +9713,7 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2',
 			return controlMarkup;
 		};
 
-		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		//отрисовка формы в заблокированном виде с простыми заголовками
 		var renderReadonlyForm = function (formObjectInstance) {
 			var formTemplate = templateStoreReadonly['FormDescriptor'];
 
@@ -9659,12 +9732,12 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/render2',
 
 		return {
 			buildViewModel: buildViewModel,
-			//пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+			//похоже нигде не используется, надо выпилить
 			renderReadonlyForm: renderReadonlyForm,
 			buildReadonlyViewModel: buildReadonlyViewModel
 		};
 	});
-//пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+//Массив шаблонов.
 define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/templateReadonlyStore',
 	['text!Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/templatesReadonly/placeholder-template.html',
 		'text!Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/templatesReadonly/Form-template.html',
@@ -9710,7 +9783,7 @@ define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/templateReadonlyS
 			'UserInfoList': placeholderTemplate
 		};
 	});
-//пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+//Массив шаблонов.
 define('Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/scripts/templateStore2',
 		['text!Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/templates2/BoolControl.html',
 		'text!Nvx.ReDoc.Workflow.DynamicForm/Web/Content/app/templates2/CollectionControl.html',
@@ -18980,15 +19053,15 @@ define('Nvx.ReDoc.WebInterfaceModule/Content/Scripts/Api/Certificates/certificat
 		};
 	})
 define('Nvx.ReDoc.WebInterfaceModule/Content/Scripts/Api/Certificates/certificatePave',
-		[
-			'knockout',
-			'jquery',
-			'Nvx.ReDoc.WebInterfaceModule/Content/Scripts/Api/dateFormater',
-			'jqueryExtention',
-			'filesaver',
-			],
+	[
+		'knockout',
+		'jquery',
+		'Nvx.ReDoc.WebInterfaceModule/Content/Scripts/Api/dateFormater',
+		'jqueryExtention',
+		'filesaver'
+	],
 	function (ko, $, dateFormater) {
-		return function (instance) {
+		return function(instance) {
 			var self = this;
 			//thumbprint СЃРµСЂС‚РёС„РёРєР°С‚Р° (РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїР»Р°С€РєРё).
 			self.thumbprint = ko.observable('');
@@ -19006,16 +19079,16 @@ define('Nvx.ReDoc.WebInterfaceModule/Content/Scripts/Api/Certificates/certificat
 			//Р”Р°С‚Р° РґРѕ РєРѕС‚РѕСЂРѕР№ СЃРµСЂС‚РёС„РёРєР°С‚ РґРµР№СЃС‚РІРёС‚РµР»РµРЅ.
 			self.validToDate = ko.observable('');
 
-			self.issuerStr = ko.computed(function () {
+			self.issuerStr = ko.computed(function() {
 				return 'РР·РґР°С‚РµР»СЊ: ' + self.issuerName();
 			});
 
-			self.validToDateStr = ko.computed(function () {
+			self.validToDateStr = ko.computed(function() {
 				return 'Р”РµР№СЃС‚РІРёС‚РµР»РµРЅ РїРѕ: ' + dateFormater.toDateString(self.validToDate());
 			});
 
 			//РЎРѕРєСЂР°С‰Р°РµС‚ РёРјСЏ РІР»Р°РґРµР»СЊС†Р° СЃРµСЂС‚РёС„РёРєР°С‚Р°
-			self.getShortField = function (name, maxLength) {
+			self.getShortField = function(name, maxLength) {
 				if (name.length > maxLength) {
 					name = name.substring(0, maxLength - 3) + "...";
 				}
@@ -19037,39 +19110,52 @@ define('Nvx.ReDoc.WebInterfaceModule/Content/Scripts/Api/Certificates/certificat
 				self.validToDate(new Date(instance.validToDate));
 				//Р’Р°Р»РёРґРµРЅ Р»Рё СЃРµСЂС‚РёС„РёРєР°С‚.
 				self.valid(instance.valid);
-				//РЎР°Рј СЃРµСЂС‚РёС„РёРєР°С‚ РІ BASE64.
-				self.exportedBase64 = instance.exportedBase64;
+				//РњРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ СЃРµСЂС‚РёС„РёРєР°С‚Р° РІ base64
+				//self.exportedBase64 = instance.exportedBase64;
 			}
 
 			//Р”РµР№СЃС‚РІРёРµ РїСЂРё РєР»РёРєРµ РїРѕ СЃРµСЂС‚РёС„РёРєР°С‚Сѓ. Р’Р«РќР•РЎ Р’ РњРћР”Р•Р›Р¬-Р РћР”РРўР•Р›Р¬
 			//self.action = function() ;
 
 			//Р”РµР№СЃС‚РІРёРµ РїСЂРё РєР»РёРєРµ РїРѕ РѕР±Р»Р°СЃС‚Рё РёРЅС„РѕСЂРјР°С†РёРё Рѕ СЃРµСЂС‚РёС„РёРєР°С‚Рµ.
-			self.saveCertificate = function () {
-				//var str1 = atob(self.exportedBase64);
-				var str1 = '{0}\r\n{1}\r\n{2}'.format('-----BEGIN CERTIFICATE-----', self.exportedBase64, '-----END CERTIFICATE-----');
-				var blob = new Blob([str1], { type: 'application/octet-stream' });
-				var fileName = self.subjectName() + '.cer';
-				saveAs(blob, fileName);
-
+			self.saveCertificate = function() {
+				var canAsync = !!cadesplugin.CreateObjectAsync;
+				if (canAsync) {
+					require(['Nvx.ReDoc.WebInterfaceModule/Content/Scripts/Helpers/asyncSignLib'], function (asyncSignLib) {
+						asyncSignLib.getCertificateBase64(self.thumbprint()).done(function (exportedBase64) {
+							var str1 = '{0}\r\n{1}\r\n{2}'.format('-----BEGIN CERTIFICATE-----', exportedBase64, '-----END CERTIFICATE-----');
+							var blob = new Blob([str1], { type: 'application/octet-stream' });
+							var fileName = self.subjectName() + '.cer';
+							saveAs(blob, fileName);
+						});
+					});
+				} else {
+					require(['Nvx.ReDoc.WebInterfaceModule/Content/Scripts/AuthenticationController/signLib'], function(signLib) {
+						var exportedBase64 = signLib.getCertificate(self.thumbprint());
+						var str1 = '{0}\r\n{1}\r\n{2}'.format('-----BEGIN CERTIFICATE-----', exportedBase64.Export(0), '-----END CERTIFICATE-----');
+						var blob = new Blob([str1], { type: 'application/octet-stream' });
+						var fileName = self.subjectName() + '.cer';
+						saveAs(blob, fileName);
+					});
+				}
 			};
 
 			//РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ.
 			self.rightSideTemplateId = ko.observable('Nvx.ReDoc.WebInterfaceModule/View/Certificates/rightSideCertificatePave.tmpl.html');
 			self.timerId = null;
 			//Р¤СѓРЅРєС†РёСЏ: РјРµРЅСЏРµС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ - РЅР°РІРµРґРµРЅР° Р»Рё РјС‹С€СЊ РЅР° РїР»Р°С€РєСѓ.
-			self.mouseenter = function (data, event) {
+			self.mouseenter = function(data, event) {
 				if (self.rightSideTemplateId() !== 'Nvx.ReDoc.WebInterfaceModule/View/Certificates/detailsRightSideCertificatePave.tmpl.html') {
 					var targetEl = event.target;
 					if (!$(targetEl).hasClass('more_block')) {
 						targetEl = $(event.target).parent()[0];
 					}
-					var mousemove = function (e) {
+					var mousemove = function(e) {
 						if (e.target !== targetEl &&
 							$(e.target).parent()[0] !== targetEl
 							//&&
 							//$.inArray(targetEl, $(e.target).parents().map(function(item){ return item[0]})) ==-1
-							) {
+						) {
 							self.rightSideTemplateId('Nvx.ReDoc.WebInterfaceModule/View/Certificates/rightSideCertificatePave.tmpl.html');
 							$(document).unbind('mousemove', mousemove);
 						}
@@ -19079,7 +19165,7 @@ define('Nvx.ReDoc.WebInterfaceModule/Content/Scripts/Api/Certificates/certificat
 				self.rightSideTemplateId('Nvx.ReDoc.WebInterfaceModule/View/Certificates/detailsRightSideCertificatePave.tmpl.html');
 			};
 		};
-	})
+	});
 define('Nvx.ReDoc.Rpgu.Reception/Web/Scripts/Level1Model',
 	[
 		'knockout'
@@ -20004,7 +20090,7 @@ define('Nvx.ReDoc.Rpgu.Reception/Web/Scripts/ReceptionTicketsViewModel',
 							if (response.result != null && response.result.length > 0) {
 								var currentDate = new Date();
 								for (var i = 0; i < response.result.length; i++) {
-									response.result[i].canCancel = (new Date(response.result[i].ticketDateTime) > currentDate);
+									response.result[i].canCancel = response.result[i].service.isCancelServiceExists === true && (new Date(response.result[i].ticketDateTime) > currentDate);
 									self.tickets.push(response.result[i]);
 								}
 							} else {
@@ -20513,7 +20599,7 @@ define('Nvx.ReDoc.Rpgu.PortalModule/Portal/Script/Payments/PaymentsCommonViewMod
 				self.allTabsDisable();
 				if (self.parking31CommonViewModel != null) {
 					//self.parking31CommonViewModel.parkingTabClick();
-					self.parking31CommonViewModel.parkingTabVisible(true);//С‚СѓС‚ false
+					self.parking31CommonViewModel.parkingTabVisible(true);
 					self.housingBlockActive(false);
 					self.parking31BlockVisible(true);
 				}
@@ -26850,7 +26936,7 @@ define('Nvx.ReDoc.WebInterfaceModule/Content/Scripts/Helpers/nvxReDocPlugin',
 							//Р’Р°Р»РёРґРµРЅ Р»Рё СЃРµСЂС‚РёС„РёРєР°С‚.
 							valid: Boolean(cert.isValid),
 							//РЎР°Рј СЃРµСЂС‚РёС„РёРєР°С‚.
-							exportedBase64: String(cert.exportedBase64)
+							//exportedBase64: String(cert.exportedBase64)
 						};
 
 						//Р”РѕР±Р°РІР»СЏРµРј РїРѕР»СѓС‡РёРІС€РёСЏСЃСЏ РѕР±СЉРµРєС‚ РІ РјР°СЃСЃРёРІ.
@@ -27401,8 +27487,7 @@ define('Nvx.ReDoc.WebInterfaceModule/Content/Scripts/Helpers/baseSignLib', [
 							//Р’Р°Р»РёРґРµРЅ Р»Рё СЃРµСЂС‚РёС„РёРєР°С‚.
 							valid: oCertificates.Item(index).IsValid().Result,
 							//РЎР°Рј СЃРµСЂС‚РёС„РёРєР°С‚.
-							exportedBase64: oCertificates.Item(index).Export(CAPICOM_ENCODE_BASE64)
-							//exportedBase64: oCertificates.Item(index).Export(CAPICOM_ENCODE_BINARY)
+							//exportedBase64: oCertificates.Item(index).Export(CAPICOM_ENCODE_BASE64)
 						};
 
 						//e-mail РІР»Р°РґРµР»СЊС†Р° СЃРµСЂС‚РёС„РёРєР°С‚Р°.
@@ -28140,10 +28225,13 @@ define('Nvx.ReDoc.WebInterfaceModule/Content/Scripts/Helpers/signingHelper', [
 			//РџРѕРґРїРёСЃСЊ Xml РїР»Р°РіРёРЅРѕРј.
 			self.signXmlPlugin = function(thumbprint, digestXml) {
 
+				//РСЃС…РѕРґРЅС‹Р№ xml
+				var xmlSourceString = digestXml || $("#digest").val();
+
 				//РµСЃР»Рё Р·Р°РіСЂСѓР¶РµРЅ Р°СЃРёРЅС…СЂРѕРЅРЅС‹Р№ РїР»Р°РіРёРЅ
 				var canAsync = !!cadesplugin.CreateObjectAsync;
 				if (canAsync) {
-					return asyncSignLib.signXml(thumbprint, digestXml);
+					return asyncSignLib.signXml(thumbprint, xmlSourceString);
 				}
 
 				var deferred = $.Deferred();
@@ -28165,9 +28253,6 @@ define('Nvx.ReDoc.WebInterfaceModule/Content/Scripts/Helpers/signingHelper', [
 				var XmlDsigGost3411Url = "urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr3411";
 				var CADESCOM_XML_SIGNATURE_TYPE_TEMPLATE = 2;
 				//ReSharper Restore InconsistentNaming 
-
-				//РСЃС…РѕРґРЅС‹Р№ xml
-				var xmlSourceString = digestXml || $("#digest").val();
 
 				//РћС‚РєСЂС‹РІР°РµРј С…СЂР°РЅРёР»РёС‰Рµ Рё РїРѕР»СѓС‡Р°РµРј СЃРµСЂС‚РёС„РёРєР°С‚.
 				var oStore = cadesplugin.CreateObject("CAPICOM.Store");
@@ -28554,7 +28639,6 @@ require(['knockout',
 				var departmentTreeViewModel = new DepartmentTreeViewModel();
 				ko.applyBindings(departmentTreeViewModel, document.getElementById('nvxDepartments'));
 				departmentTreeViewModel.start();
-				ko.applyBindings(stateStructuresViewModel, document.getElementById('nvxDepartmentInfo'));
 			}
 			if (document.getElementById('nvxCategory') != null) {
 				var categoryViewModel = new CategoryViewModel();
@@ -28684,8 +28768,5 @@ require(['knockout',
 				eprViewModel.start();
 				ko.applyBindings(eprViewModel, document.getElementById('esbProblemRequests'));
 			}
-
 		});
 	});
-
-

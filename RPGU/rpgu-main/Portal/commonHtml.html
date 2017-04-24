@@ -1671,7 +1671,7 @@
 	
 	<!--ko if: subDepartments.length > 0 -->
 	<ul class="sub-list" data-bind="foreach: subDepartments">
-		<div data-bind="css: 'gerb ' + $data.topParentId "></div> <li data-bind="template: { name: 'Nvx/departmentsTreeItemViewSub.tmpl.html', data: $data }"></li>
+		<li data-bind="template: { name: 'Nvx/departmentsTreeItemViewSub.tmpl.html', data: $data }"></li>
 	</ul>
 	<!-- /ko -->
 </script>
@@ -1680,7 +1680,7 @@
 	<a data-bind="text:name, attr: { href: link }, css:'departmentsLink ' + id"> </a>
 	<!--ko if: subDepartments.length > 0 -->
 	<ul class="sub-list" data-bind="foreach: subDepartments">
-		<div data-bind="css: 'gerb ' + $data.topParentId "></div> <li data-bind="template: { name: 'Nvx/departmentsTreeItemViewSub.tmpl.html', data: $data }"></li>
+		<li data-bind="template: { name: 'Nvx/departmentsTreeItemViewSub.tmpl.html', data: $data }"></li>
 	</ul>
 	<!-- /ko -->
 </script>

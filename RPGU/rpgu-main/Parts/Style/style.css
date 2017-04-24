@@ -337,7 +337,7 @@ line-height: 1.25;
 }
 
 #lightbox1 .field-row {
-margin: 0 0 61px;
+margin: 0 0 25px;
 position: relative;
 padding: 0 0 0 34px;
 }
@@ -3526,7 +3526,19 @@ font-family:'ekibastuz';src:url(data:application/font-woff;charset=utf-8;base64,
 /*----------конец блока-------------*/
 
 /*-------------блок иконок для меню услуг----------------*/
-
+/*#nav .drop {
+  visibility: visible;
+  opacity: 1;
+}*/
+/*.icon{
+  display: block;
+  width: 44px;
+  height: 44px;
+  border: 1px solid red;
+}
+.icon{
+  background-image: url(../Img/img-service/citizenship.svg);
+}*/
 .CatalogSection_730:before{
   content: '';
   display: block;
@@ -3572,7 +3584,7 @@ font-family:'ekibastuz';src:url(data:application/font-woff;charset=utf-8;base64,
   display: block;
   width: 44px;
   height: 44px;
-  background-image: url(../Img/img-service/Culture_and_Media.svg);
+  background-image: url(../Img/img-service/nalogi.svg);
   background-repeat: no-repeat;
 }
 .CatalogSection_800:before {
@@ -3653,6 +3665,15 @@ font-family:'ekibastuz';src:url(data:application/font-woff;charset=utf-8;base64,
   width: 44px;
   height: 44px;
   background-image: url(../Img/img-service/Work_and_employment.svg);
+  background-repeat: no-repeat;
+}
+.OtherService:before,
+.OtherCatalogSection:before{
+  content: '';
+  display: block;
+  width: 44px;
+  height: 44px;
+  background-image: url(../Img/img-service/prochie.svg);
   background-repeat: no-repeat;
 }
 

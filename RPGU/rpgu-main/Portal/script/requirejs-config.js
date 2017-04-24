@@ -202,14 +202,16 @@ var reconfigJq = function(jq) {
 	if (navigator != null && navigator.userAgent != null && navigator.userAgent.indexOf('Trident') >= 0) {
 		jq.ajaxSettings.globalUrl += '/';
 	}
-
-	var old = jq.ajax;
+	
+		var old = jq.ajax;
 	jq.ajax = function(options) {
 		var setup = jq.ajaxSetup();
 		if (setup.globalUrl) {
 			options.url = setup.globalUrl + options.url;
 			var ttype = options.method || options.type;
 
+			jq.ajaxSettings.data = {};
+			
 			//IE11 fix
 			if (navigator != null && navigator.userAgent != null && navigator.userAgent.indexOf('Trident') >= 0) {
 				if (options.headers == null)

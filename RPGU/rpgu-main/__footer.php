@@ -287,5 +287,7 @@ IncludeTemplateLangFile(__FILE__);
 	<script src="<?=SITE_TEMPLATE_PATH?>/js/jquery-1.11.2.min.js"></script>
 	<script src="<?=SITE_TEMPLATE_PATH?>/js/jquery.main.js"></script>
 	<script src="<?=SITE_TEMPLATE_PATH?>/js/custom.js"></script>
+
+
 </body>
 </html>
