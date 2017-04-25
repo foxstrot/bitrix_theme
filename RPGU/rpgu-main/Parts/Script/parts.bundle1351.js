@@ -20534,8 +20534,16 @@ define('Nvx.ReDoc.Rpgu.PortalModule/Portal/Script/Payments/PaymentsCommonViewMod
 		'Nvx.ReDoc.Rpgu.Parking31/Script/ParkingCommonViewModel'
 	],
 	function(ko, $, ServicePayViewModel, ParkingCommonViewModel) {
-		var PaymentsCommonViewModel = function(redocPluginObject, orderId, serviceCode) {
+		var PaymentsCommonViewModel = function(redocPluginObject, portalGeneralSettingsModel, orderId, serviceCode) {
 			var self = this;
+
+			self.visibleParking31Parking = ko.observable(false);
+			self.visibleParking31Abonement = ko.observable(false);
+
+			if (portalGeneralSettingsModel != null) {
+				self.visibleParking31Parking(portalGeneralSettingsModel.visibleParking31Parking());
+				self.visibleParking31Abonement(portalGeneralSettingsModel.visibleParking31Abonement());
+			}
 
 			self.housingVisible = ko.observable(false);
 			self.parkingVisible = ko.observable(false);
@@ -20560,7 +20568,7 @@ define('Nvx.ReDoc.Rpgu.PortalModule/Portal/Script/Payments/PaymentsCommonViewMod
 
 			self.parking31CommonViewModel = null;
 			if (redocPluginObject != null) {
-				if (redocPluginObject["Nvx.ReDoc.Rpgu.Parking31"] === true) {
+				if (redocPluginObject["Nvx.ReDoc.Rpgu.Parking31"] === true && (self.visibleParking31Parking() == true || self.visibleParking31Abonement() == true)) {
 					self.parking31CommonViewModel = new ParkingCommonViewModel();
 				} else {
 					self.parking31CommonViewModelVisible(false);
@@ -20630,71 +20638,85 @@ define('Nvx.ReDoc.Rpgu.PortalModule/Portal/Script/Payments/PaymentsCommonViewMod
 
 		PaymentsCommonViewModel.prototype.start = function() {
 			var self = this;
-			require(['Nvx.ReDoc.WebInterfaceModule/Content/Scripts/_CommonTemplate/redocPlugin'], function(redocPlugin) {
-				redocPlugin.pluginInfo().done(function(redocPluginObject) {
-					if (redocPluginObject["Nvx.ReDoc.Rpgu.HousingUtilities"] === true) {
-						var orderId = window.getUrlVarsFunction()['Order_ID'];
-						var serviceCode = window.getUrlVarsFunction()['serviceCode'];
-						self.servicePayViewModel = new ServicePayViewModel(orderId, serviceCode);
-						self.servicePayViewModelVisible(true);
-					} else {
-						self.servicePayViewModelVisible(false);
-					}
+			require([
+					'Nvx.ReDoc.WebInterfaceModule/Content/Scripts/_CommonTemplate/redocPlugin',
+					'Nvx.ReDoc.Rpgu.PortalModule/Settings/Script/ViewModel/PortalGeneralSettingsModel'
+				],
+				function(redocPlugin, PortalGeneralSettingsModel) {
+					self.portalGeneralSettingsModel = new PortalGeneralSettingsModel();
+					var promiseLoadSettings = self.portalGeneralSettingsModel.getSettings();
+					var promiseLoadPlugins = redocPlugin.pluginInfo();
 
-					self.parking31CommonViewModel = null;
-					if (redocPluginObject["Nvx.ReDoc.Rpgu.Parking31"] === true) {
-						self.parking31CommonViewModel = new ParkingCommonViewModel();
-						self.parking31CommonViewModelVisible(true);
-					} else {
-						self.parking31CommonViewModelVisible(false);
-					}
-					var wasClicked = false;
-					if (window.getUrlVarsFunction != null) {
-						var param = window.getUrlVarsFunction(null, '#')[''];
-						if (param != null) {
-							switch (param) {
-							case 'tab1':
-								if (self.servicePayViewModel != null) {
-									self.clicktab1();
-									self.tab1(true);
-									wasClicked = true;
+					$.when(promiseLoadPlugins, promiseLoadSettings).done(function(redocPluginObject, portalSettingsModel) {
+						//redocPlugin.pluginInfo().done(function(redocPluginObject) {
+						if (redocPluginObject["Nvx.ReDoc.Rpgu.HousingUtilities"] === true) {
+							var orderId = window.getUrlVarsFunction()['Order_ID'];
+							var serviceCode = window.getUrlVarsFunction()['serviceCode'];
+							self.servicePayViewModel = new ServicePayViewModel(orderId, serviceCode);
+							self.servicePayViewModelVisible(true);
+						} else {
+							self.servicePayViewModelVisible(false);
+						}
+						
+						if (portalSettingsModel != null) {
+							self.visibleParking31Parking(self.portalGeneralSettingsModel.visibleParking31Parking());
+							self.visibleParking31Abonement(self.portalGeneralSettingsModel.visibleParking31Abonement());
+						}
+
+						self.parking31CommonViewModel = null;
+						if (redocPluginObject["Nvx.ReDoc.Rpgu.Parking31"] === true && (self.visibleParking31Parking() == true || self.visibleParking31Abonement() == true)) {
+							self.parking31CommonViewModel = new ParkingCommonViewModel();
+							self.parking31CommonViewModelVisible(true);
+						} else {
+							self.parking31CommonViewModelVisible(false);
+						}
+						var wasClicked = false;
+						if (window.getUrlVarsFunction != null) {
+							var param = window.getUrlVarsFunction(null, '#')[''];
+							if (param != null) {
+								switch (param) {
+								case 'tab1':
+									if (self.servicePayViewModel != null) {
+										self.clicktab1();
+										self.tab1(true);
+										wasClicked = true;
+									}
+									break;
+								case 'tab2':
+									if (self.servicePayViewModel != null) {
+										self.clicktab2();
+										self.tab2(true);
+										wasClicked = true;
+									}
+									break;
+								case 'tab3':
+									if (self.parking31CommonViewModel != null) {
+										self.clicktab3();
+										self.tab3(true);
+										wasClicked = true;
+									}
+									break;
+								case 'tab4':
+									if (self.parking31CommonViewModel != null) {
+										self.clicktab4();
+										self.tab4(true);
+										wasClicked = true;
+									}
+									break;
 								}
-								break;
-							case 'tab2':
-								if (self.servicePayViewModel != null) {
-									self.clicktab2();
-									self.tab2(true);
-									wasClicked = true;
-								}
-								break;
-							case 'tab3':
-								if (self.parking31CommonViewModel != null) {
-									self.clicktab3();
-									self.tab3(true);
-									wasClicked = true;
-								}
-								break;
-							case 'tab4':
-								if (self.parking31CommonViewModel != null) {
-									self.clicktab4();
-									self.tab4(true);
-									wasClicked = true;
-								}
-								break;
 							}
 						}
-					}
-					if (wasClicked == false) {
-						if (self.servicePayViewModel != null) {
-							self.clicktab1();
-							self.tab1(true);
-						} else if (self.parking31CommonViewModel != null) {
-							self.clicktab3();
-							self.tab3(true);
+						if (wasClicked == false) {
+							if (self.servicePayViewModel != null) {
+								self.clicktab1();
+								self.tab1(true);
+							} else if (self.parking31CommonViewModel != null) {
+								self.clicktab3();
+								self.tab3(true);
+							}
 						}
-					}
+					});
 				});
-			});
 		};
 
 		return PaymentsCommonViewModel;
@@ -22822,6 +22844,244 @@ function (ko, $, MvdTaxViewModel) {
 
 
 	return MvdTaxViewModel;
+});
+define('Nvx.ReDoc.Rpgu.PortalModule/Settings/Script/ViewModel/PortalGeneralSettingsModel',
+		['knockout',
+		'jquery',
+		'Nvx.ReDoc.WebInterfaceModule/Content/Scripts/modalWindowsFunction'],
+function (ko, $, modal) {
+	var PortalGeneralSettingsModel = (function () {
+		var instance;
+
+		/** Иницилизация единственного объекта класса */
+		var initInstance = function () {
+			instance = {};
+
+			var self = instance;
+
+			/** Максимальное количество черновиков пользователя */
+			self.hostAddress = ko.observable('');
+
+			/** Максимальное количество черновиков пользователя */
+			self.userDraftsMaxCount = ko.observable(0);
+
+			/** Максимальное количество популярных услуг */
+			self.popularServiceMaxCount = ko.observable(0);
+
+			/** Заголовок портала */
+			self.portalTitle = ko.observable('');
+
+			/** Подзаголовок портала */
+			self.portalSubTitle = ko.observable('');
+
+			self.baseLocationText = ko.observable('Текущее расположение...');
+
+			/* Техподдержки информация */
+			self.techInfo = ko.observable('');
+
+			//Ссылка на МФЦ
+			self.mfcLink = ko.observable('');
+
+			//элемент интерфейса для создания редактора
+			self.uiDigest = ko.observable(null);
+			
+			//инициализация html редактора
+			self.initHtmlEditor = function (text) {
+				if ($(self.uiDigest()).trumbowyg != null) {
+					$(self.uiDigest()).trumbowyg({
+						fullscreenable: false,
+						lang: 'ru',
+						btns: [
+							'viewHTML',
+							'|', 'formatting',
+							'|', 'btnGrp-design',
+							'|', 'link',
+							'|', 'btnGrp-justify',
+							'|', 'btnGrp-lists',
+							'|', 'horizontalRule'
+						]
+					});
+
+					$(self.uiDigest()).trumbowyg('html', text);
+				}
+			};
+			
+			/** Отображение разделов сайта */
+			self.visibleServices = ko.observable(false);
+			self.visibleStateStructure = ko.observable(false);
+			self.visibleMfc = ko.observable(false);
+			self.visibleNews = ko.observable(false);
+			self.visibleUsefulLinks = ko.observable(false);
+			self.visibleAppeal = ko.observable(false);
+			self.visibleQueue = ko.observable(false);
+			self.visibleCheckRequest = ko.observable(false);
+			self.visibleComplaint = ko.observable(false);
+			self.visiblePay = ko.observable(false);
+			self.visibleParking31Parking = ko.observable(false);
+			self.visibleParking31Abonement = ko.observable(false);
+			self.visibleReception = ko.observable(false);
+
+			/** Возвращает опции для выбора из списка select2 */
+			var getSelectOption = function(opt) {
+				return {
+					placeholder: opt.placeholder,
+					allowClear: true,
+					ajax: {
+						url: opt.url,
+						dataType: "json",
+						data: function(term) {
+							return { term: term.term };
+						},
+						processResults: function(data) {
+							return { results: data };
+						}
+					},
+					current: function(element, callback) {
+						var id = opt.getCurrentId();
+						if (id != null && id !== "") {
+							$.ajax({
+								url: opt.url,
+								dataType: 'json',
+								data: { id: id },
+								success: function(data) {
+									callback(data);
+								}
+							});
+						}
+					},
+					templateResult: function(item) {
+						return '<div class="user-of-table" style="height: 40px; text-overflow: ellipsis; overflow-wrap: break-word;">' +
+							'<div class="name-of-temp">{0}</div></div>'.format(item.text);
+					},
+					templateSelection: function(item) {
+						var attrs = "";
+						//формируем побочные строки для пунктов
+						if (item.attrs != null) {
+							$.each(item.attrs, function(id, idata) {
+								if (idata != null && idata.length > 0) {
+									attrs += idata + " ";
+								}
+							});
+						}
+						return item.text != null ? item.text : attrs;
+					},
+					minimumResultsForSearch: 3,
+					escapeMarkup: function(m) { return m; }
+				};
+			};
+
+			/** Шаблон дела для формирования обращения, если этот пункт доступен */
+			self.appealFileTemplateId = ko.observable(null);
+			self.appealTemplSelectOpt = getSelectOption({
+				getCurrentId: self.appealFileTemplateId,
+				placeholder: 'Выберите шаблон дела',
+				url: "/Nvx.ReDoc.WebAdmin/Web/Controller/FileTemplateController/TemplateListSelect"
+			});
+
+			/** Шаблон дела для формирования жалобы, если этот пункт доступен */
+			self.complaintServiceInfoId = ko.observable(null);
+			self.complaintServiceSelectOpt = getSelectOption({
+				getCurrentId: self.complaintServiceInfoId,
+				placeholder: 'Выберите услугу',
+				url: "/Rpgu/Complaint/ComplaintServiceListSelect"
+			});
+
+			/** Максимальный размер прикладываемых к заявке файлов */
+			self.maxSizeUploadFiles = ko.observable(0);
+
+			/** Доступность персонального кабинета */
+			self.personalCabinetEnable = ko.observable(true);
+
+			/** Идентификатор дела, из которого берется отчет с рейтиногом МФЦ */
+			self.mfcRatingReportFileId = ko.observable(null);
+
+			/** Идентификатор вложения, из которого берется отчет с рейтиногом МФЦР */
+			self.mfcRatingReportAttachmentId = ko.observable(null);
+
+			self.visibleMfcRating = ko.computed(function () {
+				var isNotNullOrEmpty = function (s) {
+					return s != null && s !== '';
+				};
+
+				return isNotNullOrEmpty(self.mfcRatingReportFileId())
+						&& isNotNullOrEmpty(self.mfcRatingReportAttachmentId());
+			});
+
+			/** Применяет полученные настройки к моделе
+			 * @param {} config 
+			 * @returns {} 
+			 */
+			self.applyResponse = function(config) {
+				self.hostAddress(config.hostAddress);
+				self.userDraftsMaxCount(config.userDraftsMaxCount);
+				self.popularServiceMaxCount(config.popularServiceMaxCount);
+				self.portalTitle(config.portalTitle);
+				self.portalSubTitle(config.portalSubTitle);
+				self.visibleServices(config.visibleServices);
+				self.visibleStateStructure(config.visibleStateStructure);
+				self.visibleMfc(config.visibleMfc);
+				self.visibleNews(config.visibleNews);
+				self.visibleUsefulLinks(config.visibleUsefulLinks);
+				self.visibleAppeal(config.visibleAppeal);
+				self.visibleQueue(config.visibleQueue);
+				self.visibleCheckRequest(config.visibleCheckRequest);
+				self.visibleComplaint(config.visibleComplaint);
+				self.visiblePay(config.visiblePay);
+				self.visibleParking31Parking(config.visibleParking31Parking);
+				self.visibleParking31Abonement(config.visibleParking31Abonement);
+				self.visibleReception(config.visibleReception);
+				self.maxSizeUploadFiles(config.maxSizeUploadFiles);
+				self.personalCabinetEnable(config.personalCabinetEnable);
+				self.appealFileTemplateId(config.appealFileTemplateId);
+				self.complaintServiceInfoId(config.complaintServiceInfoId);
+				self.mfcRatingReportFileId(config.mfcRatingReportFileId);
+				self.mfcRatingReportAttachmentId(config.mfcRatingReportAttachmentId);
+				self.techInfo(config.techInfo || "");
+				self.mfcLink(config.mfcLink);
+				self.baseLocationText(config.baseLocationText);
+				var digest = config.techInfo || "";
+				self.initHtmlEditor(digest);
+			};
+
+			/** Получить настройки с сервера
+			 * @returns {} 
+			 */
+			self.getSettings = function () {
+			//Показываем индикатор загрузки.
+				var trobberId = modal.CreateTrobberDiv2();
+				var url = '/Nvx.ReDoc.Rpgu.PortalModule/SettingsController/GetGeneralSettings';
+
+				return $.getJSON(url)
+						.done(function (response) {
+							if (response.hasError) {
+							//Выводим модальное окно с ошибкой.
+								modal.errorModalWindow(response.errorMessage);
+							} else {
+							//Записываем список услуг во вью-модель.
+								self.applyResponse(response.result);
+							}
+						}).fail(function (jqXHR, textStatus, errorThrown) {
+							if (jqXHR.status !== 0) {
+							//Выводим модальное окно с ошибкой.
+							modal.errorModalWindow('Не удалось получить с сервера данные о настройках портала. Подробности: ' + errorThrown);
+							}
+						}).complete(function () {
+						//Скрываем индикатор загрузки.
+							modal.CloseTrobberDiv2(trobberId);
+						});
+			};
+		};
+		
+		//Теперь это singlton
+		return (function () {
+			if (!instance) {
+				initInstance();
+			}
+			return instance;
+		});
+	}());
+
+	return PortalGeneralSettingsModel;
 });
 define('Nvx.ReDoc.Rpgu.PortalModule/Complaint/Script/ComplaintPageModel', [
 		'Nvx.ReDoc.WebInterfaceModule/Content/Scripts/modalWindowsFunction'
