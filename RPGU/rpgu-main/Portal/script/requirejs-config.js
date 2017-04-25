@@ -70,6 +70,7 @@ requirejs.config({
 		'opal-date': 'script/rubytojs/date.min',
 		'opal-datetime': 'script/rubytojs/DateTime.min',
 		'opal-guid': 'script/rubytojs/Guid.min',
+		'opal-arrayExt': 'script/rubytojs/ArrayExt.min',
 		'knockout-jqueryui/dialog': 'script/knockout-jqueryui/dialog',
 		'Nvx.ReDoc.WebInterfaceModule/Content/Scripts/ModalDialog': 'script/ModalDialog',
 		//fullcalendar.io
@@ -160,6 +161,9 @@ requirejs.config({
 		'opal-guid': {
 			deps: ['opal']
 		},
+		'opal-arrayExt': {
+			deps: ['opal']
+			},
 		'fullcalendar.ru': {
 			deps: ['fullcalendar', 'moment']
 		},
@@ -198,14 +202,16 @@ var reconfigJq = function(jq) {
 	if (navigator != null && navigator.userAgent != null && navigator.userAgent.indexOf('Trident') >= 0) {
 		jq.ajaxSettings.globalUrl += '/';
 	}
-
-	var old = jq.ajax;
+	
+		var old = jq.ajax;
 	jq.ajax = function(options) {
 		var setup = jq.ajaxSetup();
 		if (setup.globalUrl) {
 			options.url = setup.globalUrl + options.url;
 			var ttype = options.method || options.type;
 
+			jq.ajaxSettings.data = {};
+			
 			//IE11 fix
 			if (navigator != null && navigator.userAgent != null && navigator.userAgent.indexOf('Trident') >= 0) {
 				if (options.headers == null)

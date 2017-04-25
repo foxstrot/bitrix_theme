@@ -192,7 +192,6 @@ IncludeTemplateLangFile(__FILE__);
 	
 	<script src="<?=SITE_TEMPLATE_PATH?>/../rpgu-main/Portal/script/requirejs/require.min.js"> </script>
 	<script src="<?=SITE_TEMPLATE_PATH?>/../rpgu-main/Portal/script/requirejs-config.js"> </script>
-	<script src="<?=SITE_TEMPLATE_PATH?>/../rpgu-main/Parts/Script/parts.bundle.js"> </script>
-
+	<script src="<?=SITE_TEMPLATE_PATH?>/../rpgu-main/Parts/Script/parts.bundle1351.js"> </script>
 </body>
 </html>
